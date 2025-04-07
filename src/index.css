@@ -1,0 +1,52 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.content{
+  min-height: calc(100vh - 70px - 64px);
+}
+
+.movies{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(259px, 1fr));
+  gap: 1rem;
+  height: 100%;
+}
+.card{
+  height: 100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin: 0;
+}
+.search-btn{
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+}
+
+label:not(:last-child){
+  margin-right: 1rem;
+}
+.fullscreen-img {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 !important;
+
+}
+footer{
+  margin-top: 20px;
+}
+
