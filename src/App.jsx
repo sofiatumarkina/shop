@@ -1,23 +1,14 @@
-import { Header } from "./layout"
-import { Footer } from "./layout"
-import { MovieDetails } from "./layout/MovieDetails"
-import { MovieGrid } from "./layout/MovieGrid"
-import{ BrowserRouter as Router, Routes, Route} from 'react-router'
+import { Footer } from "./components/footer";
+import { Header } from "./components/header";
+import Shop from "./components/Shop";
 function App() {
-
   return (
-    <>
-    <Router>
+    <div className="App">
       <Header />
-      <Routes>
-        <Route path="films/" element={<MovieGrid/>}/>
-        <Route path="films/movie/:id" element={<MovieDetails/>}/>
-      </Routes>
-
+      <Shop />
       <Footer />
-      </Router>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
