@@ -12,5 +12,68 @@ code {
     monospace;
 }
 .contant {
-  min-height: calc(100vh - 70px - 64px) ;
+  min-height: calc(100vh - 70px - 64px);
+}
+.progress {
+  background-color: rgb(221, 216, 255) !important;
+}
+.indeterminate {
+  background-color: rgb(146, 136, 223) !important;
+}
+
+.cart {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  border-radius: 5%;
+  z-index: 5;
+  padding: 1rem;
+}
+
+@media (min-width: 767px) {
+  .cart {
+    bottom: unset;
+    top: 5rem;
+  }
+}
+
+.material-icons {
+  font-size: 35px;
+}
+.basket-list {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% -50%);
+  background-color: #ffff;
+  width: 50rem;
+  max-width: 95%;
+  box-shadow: 1px 3px 5px 8px rgb(192, 150, 255);
+}
+.basket-list {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% -50%);
+  background-color: #ffff;
+  width: 50rem;
+  max-width: 95%;
+  box-shadow: 1px 3px 5px 8px rgb(192, 150, 255);
+}
+.collection-item{
+  background-color: rgb(174, 169, 213) !important;
+  color: #ffff !important;
+
+}
+.basket-none{
+  background-color: #ffff !important;
+  color: rgb(174, 169, 213) !important;
+}
+.basket-clear{
+  cursor: pointer;
+  position: absolute;
+  top: 0.2rem;
+  right: 0.5rem;
+  color: #ffff;
 }
