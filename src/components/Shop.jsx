@@ -1,36 +1,44 @@
 import { useState, useEffect } from "react";
 import { API_KEY, API_URL } from "../config";
 import Preloader from "./preloader";
-import GoodList from "./GoodsList";
+import GoodsList from "./GoodsList";
 import Cart from "./Cart";
 import BasketList from "./basketList";
-{
-  GoodList;
-}
-
+import Alert from "./alert";
 export default function Shop() {
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
   const [isBasketShow, setBasketShow] = useState(false);
+  const [alertName, setAlertName] = useState("");
   useEffect(function getGoods() {
     fetch(API_URL, {
       headers: {
-        Authorization:  API_KEY,
+        Authorization: API_KEY,
       },
     })
       .then((response) => response.json())
       .then((data) => {
-        data.featured && setGoods(data.featured);
+        data.shop && setGoods(data.shop);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
         setLoading(false);
       });
   }, []);
+  const closeAlert = () => {
+    setAlertName("");
+  };
   const addToBasket = (item) => {
     const itemIndex = order.findIndex((orderItem) => orderItem.id === item.id);
+
     if (itemIndex < 0) {
       const newItem = {
         ...item,
         quantity: 1,
+        image: item.displayAssets?.[0]?.full_background || "",
+        rarity: item.rarity?.name || "Unknown",
       };
       setOrder([...order, newItem]);
     } else {
@@ -46,23 +54,70 @@ export default function Shop() {
       });
       setOrder(newOrder);
     }
+    setAlertName(item.name);
+  };
+  const removeFromBasket = (itemId) => {
+    const newOrder = order.filter((el) => el.id !== itemId);
+    setOrder(newOrder);
   };
 
   const handleBasketShow = () => {
     setBasketShow(!isBasketShow);
   };
 
+  const incQuantity = (itemId) => {
+    const newOrder = order.map((el) => {
+      if (el.id === itemId) {
+        const newQuantity = el.quantity + 1;
+        return {
+          ...el,
+          quantity: newQuantity,
+        };
+      } else {
+        return el;
+      }
+    });
+    setOrder(newOrder);
+  };
+  const decQuantity = (itemId) => {
+    const newOrder = order.map((el) => {
+      if (el.id === itemId) {
+        const newQuantity = el.quantity - 1;
+        return {
+          ...el,
+          quantity: newQuantity >= 0 ? newQuantity : 0,
+        };
+      } else {
+        return el;
+      }
+    });
+    setOrder(newOrder);
+  };
+
   return (
-    <main className="container contant">
-      <Cart quantity={order.length} handleBasketShow={handleBasketShow} />
+    <main className="container content">
+      <Cart
+        quantity={order.reduce((sum, item) => sum + item.quantity, 0)}
+        handleBasketShow={handleBasketShow}
+      />
+
       {loading ? (
         <Preloader />
       ) : (
-        <GoodList goods={goods} addToBasket={addToBasket} />
+        <GoodsList goods={goods} addToBasket={addToBasket} />
       )}
+
       {isBasketShow && (
-        <BasketList order={order} handleBasketShow={handleBasketShow} />
+        <BasketList
+          order={order}
+          handleBasketShow={handleBasketShow}
+          setOrder={setOrder}
+          removeFromBasket={removeFromBasket}
+          incQuantity={incQuantity}
+          decQuantity={decQuantity}
+        />
       )}
+      {alertName && <Alert name={alertName} closeAlert={closeAlert} />}
     </main>
   );
 }
