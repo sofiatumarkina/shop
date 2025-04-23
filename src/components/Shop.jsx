@@ -11,21 +11,33 @@ export default function Shop() {
   const [order, setOrder] = useState([]);
   const [isBasketShow, setBasketShow] = useState(false);
   const [alertName, setAlertName] = useState("");
-  useEffect(function getGoods() {
-    fetch(API_URL, {
-      headers: {
-        Authorization: API_KEY,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data.shop && setGoods(data.shop);
+  useEffect(() => {
+    const fetchGoods = async () => {
+      try {
+        const response = await fetch(API_URL, {
+          headers: { Authorization: API_KEY },
+        });
+        const data = await response.json();
+
+        if (data.shop) {
+          const seen = new Set();
+          const uniqueGoods = data.shop.filter((item) => {
+            const identifier = `${item.mainId}-${item.displayName}-${item.price?.finalPrice}`;
+            return (
+              item.displayName && !seen.has(identifier) && seen.add(identifier)
+            );
+          });
+
+          setGoods(uniqueGoods);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchGoods();
   }, []);
   const closeAlert = () => {
     setAlertName("");

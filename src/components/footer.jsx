@@ -7,7 +7,7 @@ export function Footer() {
       </div>
       <div className="footer-copyright">
         <div className="container">
-          ©  {new Date().getFullYear()} Copyright Text
+          ©  {new Date().getFullYear()} Тумаркина С. Д.
           <a className="grey-text text-lighten-4 right" href="#!">
             More Links
           </a>

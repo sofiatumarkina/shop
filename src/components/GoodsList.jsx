@@ -6,16 +6,12 @@ export default function GoodList(props) {
   }
   return (
     <div className="goods">
-    {goods.map((item, index) => {
+      {goods.map((item, index) => {
         const uniqueKey = item.mainId || item.id || `item-${index}`;
         return (
-            <GoodsItem 
-                key={uniqueKey}
-                {...item}
-                addToBasket={addToBasket}
-            />
+          <GoodsItem key={uniqueKey} {...item} addToBasket={addToBasket} />
         );
-    })}
-</div>
+      })}
+    </div>
   );
 }
